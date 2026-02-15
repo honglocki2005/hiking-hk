@@ -120,11 +120,12 @@
         .trail-card {
             background: white;
             border-radius: 15px;
-            padding: 25px;
+            padding: 0;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             opacity: 1;
             animation: fadeIn 0.5s ease-in;
+            overflow: hidden;
         }
 
         .trail-card.hidden {
@@ -145,6 +146,32 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* 圖片容器 */
+        .trail-image {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+
+        .trail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        /* 卡片懸停時圖片放大效果 */
+        .trail-card:hover .trail-image img {
+            transform: scale(1.05);
+        }
+
+        /* 調整卡片內容區域 */
+        .trail-content {
+            padding: 25px;
         }
 
         .trail-header {
@@ -329,11 +356,21 @@
             .safety-content {
                 grid-template-columns: 1fr;
             }
+
+            /* 手機圖片高度 */
+            .trail-image {
+                height: 180px;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
             .trails-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* 平板圖片高度 */
+            .trail-image {
+                height: 200px;
             }
         }
     </style>
@@ -360,275 +397,325 @@
         <div class="trails-grid" id="trailsGrid">
             <!-- 初級路線 -->
             <div class="trail-card" data-difficulty="beginner">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">龍脊 Dragon's Back</h3>
-                    </div>
-                    <span class="difficulty-badge beginner">初級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop&q=80" alt="龍脊">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：4-5 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">龍脊 Dragon's Back</h3>
+                        </div>
+                        <span class="difficulty-badge beginner">初級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：8.5 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：4-5 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：8.5 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>被 CNN 評為亞洲最佳市區遠足徑，沿途可欣賞石澳、大浪灣海景</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>夏天需注意防曬，少遮蔭處</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>被 CNN 評為亞洲最佳市區遠足徑，沿途可欣賞石澳、大浪灣海景</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>夏天需注意防曬，少遮蔭處</p>
+                    </div>
                 </div>
             </div>
 
             <div class="trail-card" data-difficulty="beginner">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">大潭水塘</h3>
-                    </div>
-                    <span class="difficulty-badge beginner">初級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=800&h=500&fit=crop&q=80" alt="大潭水塘">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：2-3 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">大潭水塘</h3>
+                        </div>
+                        <span class="difficulty-badge beginner">初級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：5 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：2-3 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：5 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>維多利亞式水壩建築，歷史古蹟，路線平坦易行</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>適合親子同遊，記得帶水</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>維多利亞式水壩建築，歷史古蹟，路線平坦易行</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>適合親子同遊，記得帶水</p>
+                    </div>
                 </div>
             </div>
 
             <!-- 中級路線 -->
             <div class="trail-card" data-difficulty="intermediate">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">獅子山 Lion Rock</h3>
-                    </div>
-                    <span class="difficulty-badge intermediate">中級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=500&fit=crop&q=80" alt="獅子山">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：3-4 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">獅子山 Lion Rock</h3>
+                        </div>
+                        <span class="difficulty-badge intermediate">中級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：5 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：3-4 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：5 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>香港精神象徵，360 度維港景色</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>最後登頂路段較陡峭，需手腳並用</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>香港精神象徵，360 度維港景色</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>最後登頂路段較陡峭，需手腳並用</p>
+                    </div>
                 </div>
             </div>
 
             <div class="trail-card" data-difficulty="intermediate">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">鳳凰徑第二段</h3>
-                    </div>
-                    <span class="difficulty-badge intermediate">中級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=500&fit=crop&q=80" alt="鳳凰徑第二段">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：4-5 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">鳳凰徑第二段</h3>
+                        </div>
+                        <span class="difficulty-badge intermediate">中級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：13 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：4-5 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：13 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>經過南山營地，沿海岸線行走，景色優美</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>部分路段曝曬，需帶足夠食水</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>經過南山營地，沿海岸線行走，景色優美</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>部分路段曝曬，需帶足夠食水</p>
+                    </div>
                 </div>
             </div>
 
             <div class="trail-card" data-difficulty="intermediate">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">麥理浩徑第二段</h3>
-                    </div>
-                    <span class="difficulty-badge intermediate">中級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=500&fit=crop&q=80" alt="麥理浩徑第二段">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：5-6 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">麥理浩徑第二段</h3>
+                        </div>
+                        <span class="difficulty-badge intermediate">中級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：13.5 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：5-6 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：13.5 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>穿越馬鞍山郊野公園，景觀多樣化</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>起伏較大，需要一定體力</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>穿越馬鞍山郊野公園，景觀多樣化</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>起伏較大，需要一定體力</p>
+                    </div>
                 </div>
             </div>
 
             <!-- 高級路線 -->
             <div class="trail-card" data-difficulty="advanced">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">大帽山 Tai Mo Shan</h3>
-                    </div>
-                    <span class="difficulty-badge advanced">高級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop&q=80" alt="大帽山">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：5-6 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">大帽山 Tai Mo Shan</h3>
+                        </div>
+                        <span class="difficulty-badge advanced">高級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：10 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：5-6 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：10 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>香港最高峰（海拔 957 米），冬天可能見霜</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>山頂溫度較低，需帶禦寒衣物</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>香港最高峰（海拔 957 米），冬天可能見霜</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>山頂溫度較低，需帶禦寒衣物</p>
+                    </div>
                 </div>
             </div>
 
             <div class="trail-card" data-difficulty="advanced">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">蚺蛇尖 Sharp Peak</h3>
-                    </div>
-                    <span class="difficulty-badge advanced">高級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop&q=80" alt="蚺蛇尖">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：6-7 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">蚺蛇尖 Sharp Peak</h3>
+                        </div>
+                        <span class="difficulty-badge advanced">高級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：14 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：6-7 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：14 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>香港三尖之首，山勢險要，景色壯麗</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>需攀爬技巧，不適合懼高人士</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>香港三尖之首，山勢險要，景色壯麗</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>需攀爬技巧，不適合懼高人士</p>
+                    </div>
                 </div>
             </div>
 
             <div class="trail-card" data-difficulty="advanced">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">麥理浩徑第三段</h3>
-                    </div>
-                    <span class="difficulty-badge advanced">高級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800&h=500&fit=crop&q=80" alt="麥理浩徑第三段">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：6-7 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">麥理浩徑第三段</h3>
+                        </div>
+                        <span class="difficulty-badge advanced">高級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：10 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：6-7 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：10 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>包含企嶺下海、雞公山等景點</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>路段較長，需規劃好時間</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>包含企嶺下海、雞公山等景點</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>路段較長，需規劃好時間</p>
+                    </div>
                 </div>
             </div>
 
             <!-- 專家級路線 -->
             <div class="trail-card" data-difficulty="expert">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">鳳凰山 Lantau Peak</h3>
-                    </div>
-                    <span class="difficulty-badge expert">專家級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop&q=80" alt="鳳凰山">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：7-8 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">鳳凰山 Lantau Peak</h3>
+                        </div>
+                        <span class="difficulty-badge expert">專家級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：15 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：7-8 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：15 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>香港第二高峰，觀日出勝地，「鳳凰觀日」為香港八景之一</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>體力消耗大，需及早出發，觀日出需凌晨起行</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>香港第二高峰，觀日出勝地，「鳳凰觀日」為香港八景之一</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>體力消耗大，需及早出發，觀日出需凌晨起行</p>
+                    </div>
                 </div>
             </div>
 
             <div class="trail-card" data-difficulty="expert">
-                <div class="trail-header">
-                    <div>
-                        <h3 class="trail-name">西貢東全走 East Sai Kung</h3>
-                    </div>
-                    <span class="difficulty-badge expert">專家級</span>
+                <div class="trail-image">
+                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=500&fit=crop&q=80" alt="西貢東全走">
                 </div>
-                <div class="trail-info">
-                    <div class="info-item">
-                        <span class="icon">⏱️</span>
-                        <span>預計時間：8-10 小時</span>
+                <div class="trail-content">
+                    <div class="trail-header">
+                        <div>
+                            <h3 class="trail-name">西貢東全走 East Sai Kung</h3>
+                        </div>
+                        <span class="difficulty-badge expert">專家級</span>
                     </div>
-                    <div class="info-item">
-                        <span class="icon">📏</span>
-                        <span>距離：20 公里</span>
+                    <div class="trail-info">
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>預計時間：8-10 小時</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>距離：20 公里</span>
+                        </div>
                     </div>
-                </div>
-                <div class="trail-features">
-                    <h4>✨ 特色</h4>
-                    <p>穿越多個山頭，包括大灣、鹹田灣等美麗海灘</p>
-                </div>
-                <div class="trail-notes">
-                    <h4>⚠️ 注意事項</h4>
-                    <p>路線漫長，需有充足行山經驗，建議結伴同行</p>
+                    <div class="trail-features">
+                        <h4>✨ 特色</h4>
+                        <p>穿越多個山頭，包括大灣、鹹田灣等美麗海灘</p>
+                    </div>
+                    <div class="trail-notes">
+                        <h4>⚠️ 注意事項</h4>
+                        <p>路線漫長，需有充足行山經驗，建議結伴同行</p>
+                    </div>
                 </div>
             </div>
         </div>
