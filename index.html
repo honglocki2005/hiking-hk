@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="香港行山地點指南 - 介紹香港著名的行山地點及其難度等級">
+    <title>香港行山地點指南</title>
+    <style>
+        /* CSS Reset 和基礎樣式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 頁首 */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+
+        /* 篩選按鈕區 */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .filter-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-btn[data-difficulty="all"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .filter-btn[data-difficulty="beginner"] {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .filter-btn[data-difficulty="intermediate"] {
+            background: #2196F3;
+            color: white;
+        }
+
+        .filter-btn[data-difficulty="advanced"] {
+            background: #FF9800;
+            color: white;
+        }
+
+        .filter-btn[data-difficulty="expert"] {
+            background: #F44336;
+            color: white;
+        }
+
+        /* 路線卡片網格 */
+        .trails-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        /* 路線卡片 */
+        .trail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 1;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .trail-card.hidden {
+            display: none;
+        }
+
+        .trail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .trail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .trail-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .difficulty-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .difficulty-badge.beginner {
+            background: #4CAF50;
+        }
+
+        .difficulty-badge.intermediate {
+            background: #2196F3;
+        }
+
+        .difficulty-badge.advanced {
+            background: #FF9800;
+        }
+
+        .difficulty-badge.expert {
+            background: #F44336;
+        }
+
+        .trail-info {
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .info-item .icon {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .trail-features {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .trail-features h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .trail-features p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .trail-notes {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .trail-notes h4 {
+            color: #856404;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .trail-notes p {
+            color: #856404;
+            font-size: 0.85rem;
+        }
+
+        /* 安全提示區塊 */
+        .safety-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .safety-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .safety-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .safety-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #F44336;
+        }
+
+        .safety-box h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .safety-box ul {
+            list-style: none;
+        }
+
+        .safety-box li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .safety-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            color: #7f8c8d;
+        }
+
+        /* 響應式設計 - 移動設備優先 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .trails-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-container {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .safety-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .trails-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 容器 -->
+    <div class="container">
+        <!-- 頁首 -->
+        <header>
+            <h1>🏔️ 香港行山地點指南</h1>
+            <p>探索香港最美麗的行山路線，感受大自然的魅力</p>
+        </header>
+
+        <!-- 篩選按鈕區 -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-difficulty="all">全部路線</button>
+            <button class="filter-btn" data-difficulty="beginner">初級</button>
+            <button class="filter-btn" data-difficulty="intermediate">中級</button>
+            <button class="filter-btn" data-difficulty="advanced">高級</button>
+            <button class="filter-btn" data-difficulty="expert">專家級</button>
+        </div>
+
+        <!-- 路線卡片網格 -->
+        <div class="trails-grid" id="trailsGrid">
+            <!-- 初級路線 -->
+            <div class="trail-card" data-difficulty="beginner">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">龍脊 Dragon's Back</h3>
+                    </div>
+                    <span class="difficulty-badge beginner">初級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：4-5 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：8.5 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>被 CNN 評為亞洲最佳市區遠足徑，沿途可欣賞石澳、大浪灣海景</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>夏天需注意防曬，少遮蔭處</p>
+                </div>
+            </div>
+
+            <div class="trail-card" data-difficulty="beginner">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">大潭水塘</h3>
+                    </div>
+                    <span class="difficulty-badge beginner">初級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：2-3 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：5 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>維多利亞式水壩建築，歷史古蹟，路線平坦易行</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>適合親子同遊，記得帶水</p>
+                </div>
+            </div>
+
+            <!-- 中級路線 -->
+            <div class="trail-card" data-difficulty="intermediate">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">獅子山 Lion Rock</h3>
+                    </div>
+                    <span class="difficulty-badge intermediate">中級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：3-4 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：5 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>香港精神象徵，360 度維港景色</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>最後登頂路段較陡峭，需手腳並用</p>
+                </div>
+            </div>
+
+            <div class="trail-card" data-difficulty="intermediate">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">鳳凰徑第二段</h3>
+                    </div>
+                    <span class="difficulty-badge intermediate">中級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：4-5 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：13 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>經過南山營地，沿海岸線行走，景色優美</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>部分路段曝曬，需帶足夠食水</p>
+                </div>
+            </div>
+
+            <div class="trail-card" data-difficulty="intermediate">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">麥理浩徑第二段</h3>
+                    </div>
+                    <span class="difficulty-badge intermediate">中級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：5-6 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：13.5 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>穿越馬鞍山郊野公園，景觀多樣化</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>起伏較大，需要一定體力</p>
+                </div>
+            </div>
+
+            <!-- 高級路線 -->
+            <div class="trail-card" data-difficulty="advanced">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">大帽山 Tai Mo Shan</h3>
+                    </div>
+                    <span class="difficulty-badge advanced">高級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：5-6 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：10 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>香港最高峰（海拔 957 米），冬天可能見霜</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>山頂溫度較低，需帶禦寒衣物</p>
+                </div>
+            </div>
+
+            <div class="trail-card" data-difficulty="advanced">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">蚺蛇尖 Sharp Peak</h3>
+                    </div>
+                    <span class="difficulty-badge advanced">高級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：6-7 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：14 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>香港三尖之首，山勢險要，景色壯麗</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>需攀爬技巧，不適合懼高人士</p>
+                </div>
+            </div>
+
+            <div class="trail-card" data-difficulty="advanced">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">麥理浩徑第三段</h3>
+                    </div>
+                    <span class="difficulty-badge advanced">高級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：6-7 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：10 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>包含企嶺下海、雞公山等景點</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>路段較長，需規劃好時間</p>
+                </div>
+            </div>
+
+            <!-- 專家級路線 -->
+            <div class="trail-card" data-difficulty="expert">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">鳳凰山 Lantau Peak</h3>
+                    </div>
+                    <span class="difficulty-badge expert">專家級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：7-8 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：15 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>香港第二高峰，觀日出勝地，「鳳凰觀日」為香港八景之一</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>體力消耗大，需及早出發，觀日出需凌晨起行</p>
+                </div>
+            </div>
+
+            <div class="trail-card" data-difficulty="expert">
+                <div class="trail-header">
+                    <div>
+                        <h3 class="trail-name">西貢東全走 East Sai Kung</h3>
+                    </div>
+                    <span class="difficulty-badge expert">專家級</span>
+                </div>
+                <div class="trail-info">
+                    <div class="info-item">
+                        <span class="icon">⏱️</span>
+                        <span>預計時間：8-10 小時</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📏</span>
+                        <span>距離：20 公里</span>
+                    </div>
+                </div>
+                <div class="trail-features">
+                    <h4>✨ 特色</h4>
+                    <p>穿越多個山頭，包括大灣、鹹田灣等美麗海灘</p>
+                </div>
+                <div class="trail-notes">
+                    <h4>⚠️ 注意事項</h4>
+                    <p>路線漫長，需有充足行山經驗，建議結伴同行</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 安全提示區塊 -->
+        <section class="safety-section">
+            <h2>🛡️ 安全資訊</h2>
+            <div class="safety-content">
+                <div class="safety-box">
+                    <h3>安全提示</h3>
+                    <ul>
+                        <li>出發前查看天氣預報</li>
+                        <li>攜帶充足食水和乾糧</li>
+                        <li>告知家人行程路線</li>
+                        <li>穿著合適的行山裝備</li>
+                        <li>量力而為，適時折返</li>
+                    </ul>
+                </div>
+                <div class="safety-box">
+                    <h3>準備清單</h3>
+                    <ul>
+                        <li>行山鞋、背囊</li>
+                        <li>充足的水和食物</li>
+                        <li>防曬用品、帽子</li>
+                        <li>急救包、哨子</li>
+                        <li>手機及充電器</li>
+                        <li>地圖或 GPS 應用程式</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁尾 -->
+        <footer>
+            <p>© 2026 香港行山地點指南</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 取得 DOM 元素
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const trailCards = document.querySelectorAll('.trail-card');
+
+        // 篩選功能
+        function filterTrails(difficulty) {
+            trailCards.forEach(card => {
+                const cardDifficulty = card.getAttribute('data-difficulty');
+                
+                if (difficulty === 'all' || cardDifficulty === difficulty) {
+                    card.classList.remove('hidden');
+                    // 重新觸發動畫
+                    card.style.animation = 'none';
+                    setTimeout(() => {
+                        card.style.animation = 'fadeIn 0.5s ease-in';
+                    }, 10);
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // 事件委派處理篩選按鈕點擊
+        document.querySelector('.filter-container').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                // 移除所有按鈕的 active 類別
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // 為點擊的按鈕添加 active 類別
+                e.target.classList.add('active');
+                
+                // 取得難度等級並篩選
+                const difficulty = e.target.getAttribute('data-difficulty');
+                filterTrails(difficulty);
+            }
+        });
+
+        // 頁面載入時的平滑滾動
+        document.addEventListener('DOMContentLoaded', () => {
+            // 為所有卡片添加載入動畫
+            trailCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
